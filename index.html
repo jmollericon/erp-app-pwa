@@ -75,10 +75,21 @@
       /*const response = await fetch('http://181.188.168.144:8080/desarrollo/dev/login.php', {method: 'POST', mode: 'cors', cache: 'no-cache',})
       */
       //'http://sgafoi.coopelect.com/rest/Admin/servicios',
-      /*fetch('http://localhost/erp-base-ci/rest/Admin/servicios')
-      .then(response => response.json())
-      .then(data => console.log(data));*/
       $('#msj2').text('conectando');
+      fetch('http://localhost/erp-base-ci/rest/App/login')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        $('#msj2').text('okey');
+          if(data) {
+            window.location = './home.html'
+            $('#msj2').text('okey');
+          } else {
+            $('#msj2').text('fallo autenticacion');
+          }
+      });
+
+      /*
       $.ajax({
         type: "post",
         url: "http://localhost/erp-base-ci/rest/App/login",
@@ -94,7 +105,7 @@
           }
           console.log(response)
         }
-      });
+      });*/
     });
   </script>
 </body>
