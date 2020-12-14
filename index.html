@@ -90,15 +90,16 @@
       });*/
 
       $.ajax({
-        type: "post",
-        url: "http://localhost/erp-base-ci/rest/App/login",
-        data: {username, password},
+        type: "get",
+        //url: "http://sga/erp-base-ci/rest/App/servicios",
+        url: "http://sgafoi.coopelect.com/rest/Admin/servicios",
+        //data: {username, password},
         dataType: "json",
         success: function (response) {
           $('#msj2').text('okey');
           if(response) {
-            window.location = './home.html'
-            $('#msj2').text('okey');
+            //window.location = './home.html'
+            $('#msj2').text('okey '+ response[0].Servicio);
           } else {
             $('#msj2').text('fallo autenticacion');
           }
