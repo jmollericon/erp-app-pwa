@@ -48,6 +48,7 @@
             </form>
             <!-- <p class="card-text">Body</p> -->
             <a href="./home.html">Home</a><br>
+            Mensaje2: <span id="msj2"></span><br>
             <span id="msj">Mensaje</span>
           </div>
         </div>
@@ -77,15 +78,19 @@
       /*fetch('http://localhost/erp-base-ci/rest/Admin/servicios')
       .then(response => response.json())
       .then(data => console.log(data));*/
-
+      $('#msj2').text('conectando');
       $.ajax({
         type: "post",
         url: "http://localhost/erp-base-ci/rest/App/login",
         data: {username, password},
         dataType: "json",
         success: function (response) {
+          $('#msj2').text('okey');
           if(response) {
             window.location = './home.html'
+            $('#msj2').text('okey');
+          } else {
+            $('#msj2').text('fallo autenticacion');
           }
           console.log(response)
         }
