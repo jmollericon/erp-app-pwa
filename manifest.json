@@ -3,12 +3,12 @@
   "short_name": "Erp App",
   "description": "Registro de lecturas medidores",
   "background_color": "#2B2B2B",
-  "theme_color": "#F0DB4F",
+  "theme_color": "#00BDFF",
   "orientation": "portrait",
   "display": "standalone",
   "start_url": "./?utm_source=web_app_manifest",
   "scope": "./",
-  "lang": "es-MX",
+  "lang": "es",
   "icons": [
     {
       "src": "./img/icon_1024.png",
@@ -53,11 +53,6 @@
     {
       "src": "./img/icon_32.png",
       "sizes": "32x32",
-      "type": "image/png"
-    },
-    {
-      "src": "./img/favicon.png",
-      "sizes": "16x16",
       "type": "image/png"
     }
   ]

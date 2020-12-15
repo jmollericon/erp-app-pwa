@@ -8,7 +8,7 @@ const CACHE_NAME = 'vi_cache_erp_app_pwa',
     './js/indexedDB_index.js',
     './js/indexedDB_home.js',
     //'./img/ProgramadorFitness.png',
-    //'./img/favicon.png'
+    './assets/images/code.png'
   ]
 
 //durante la fase de instalación, generalmente se almacena en caché los activos estáticos
