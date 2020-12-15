@@ -7,7 +7,6 @@ const DB_STORE_NAME_FOUR  = 'data_zona';
 const DB_STORE_NAME_FIVE  = 'data_calle';
 const DB_STORE_NAME_SIX   = 'data_lectura';
 
-let data_sesion;
 var db;
 
 // Used to keep track of which view is displayed to avoid uselessly reloading it

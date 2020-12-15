@@ -21,15 +21,55 @@ function openDB() {
     // db = req.result;
     db = this.result;
     console.log("openDB DONE");
-    verificar_inicio_sesion();
+    verificar_inicio_sesion_home();
   };
   request.onerror = function (evt) {
     console.error("openDB:", evt.target.errorCode);
   };
+
+  request.onupgradeneeded = function (evt) {
+    console.log("openDB.onupgradeneeded");
+    // STORE ONE - data_sesion
+    var store_one = evt.currentTarget.result.createObjectStore(DB_STORE_NAME_ONE, { keyPath: 'id', autoIncrement: true });
+    store_one.createIndex('username', 'username', { unique: true });
+    store_one.createIndex('name', 'name', { unique: false });
+    store_one.createIndex('user_type', 'user_type', { unique: false });
+    store_one.createIndex('page', 'page', { unique: false });
+    // STORE TWO - data_abonado
+    /*var store_two = evt.currentTarget.result.createObjectStore(DB_STORE_NAME_TWO, { keyPath: 'id', autoIncrement: true });
+    store_two.createIndex('biblioid', 'biblioid', { unique: true });
+    store_two.createIndex('title', 'title', { unique: false });
+    store_two.createIndex('year', 'year', { unique: false });*/
+
+    // STORE THREE - data_circuito
+    var store_three = evt.currentTarget.result.createObjectStore(DB_STORE_NAME_THREE, { keyPath: 'id', autoIncrement: true });
+    store_three.createIndex('Id_Circuito', 'Id_Circuito', { unique: true });
+    store_three.createIndex('Sigla', 'Sigla', { unique: false });
+    store_three.createIndex('Circuito', 'Circuito', { unique: false });
+    // STORE FOUR - data_zona
+    var store_four = evt.currentTarget.result.createObjectStore(DB_STORE_NAME_FOUR, { keyPath: 'id', autoIncrement: true });
+    store_four.createIndex('Id_Zona', 'Id_Zona', { unique: true });
+    store_four.createIndex('Localidad', 'Localidad', { unique: false });
+    store_four.createIndex('Sigla', 'Sigla', { unique: false });
+    store_four.createIndex('Zona', 'Zona', { unique: false });
+    // STORE FIVE - data_calle
+    var store_five = evt.currentTarget.result.createObjectStore(DB_STORE_NAME_FIVE, { keyPath: 'id', autoIncrement: true });
+    store_five.createIndex('Id_Calle', 'Id_Calle', { unique: true });
+    store_five.createIndex('Circuito', 'Circuito', { unique: false });
+    store_five.createIndex('Zona', 'Zona', { unique: false });
+    store_five.createIndex('Sigla', 'Sigla', { unique: false });
+    store_five.createIndex('Calle', 'Calle', { unique: false });
+    // STORE SIX - data_lectura
+    var store_six = evt.currentTarget.result.createObjectStore(DB_STORE_NAME_SIX, { keyPath: 'id', autoIncrement: true });
+    store_six.createIndex('Id_Lectura', 'Id_Lectura', { unique: true });
+    store_six.createIndex('Abonado', 'Abonado', { unique: false });
+    store_six.createIndex('Lectura_Anterior', 'Lectura_Anterior', { unique: false });
+    store_six.createIndex('Lectura_Actual', 'Lectura_Actual', { unique: false });
+  };
 }
 
 
-function verificar_inicio_sesion() {
+function verificar_inicio_sesion_home() {
   const transaction = db.transaction([DB_STORE_NAME_ONE], 'readonly')
   const objectStore = transaction.objectStore(DB_STORE_NAME_ONE)
   const request     = objectStore.openCursor()
