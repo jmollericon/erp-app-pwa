@@ -1,6 +1,5 @@
-;
 //asignar un nombre y versión al cache
-const CACHE_NAME = 'v1_cache_programador_fitness',
+const CACHE_NAME = 'vi_cache_erp_app_pwa',
   urlsToCache = [
     './',
     //'https://fonts.googleapis.com/css?family=Raleway:400,700',
