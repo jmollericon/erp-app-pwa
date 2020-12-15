@@ -1,13 +1,12 @@
 //asignar un nombre y versión al cache
 const CACHE_NAME = 'vi_cache_erp_app_pwa',
   urlsToCache = [
-    './',
-    //'https://fonts.googleapis.com/css?family=Raleway:400,700',
-    //'https://fonts.gstatic.com/s/raleway/v12/1Ptrg8zYS_SKggPNwJYtWqZPAA.woff2',
-    //'https://use.fontawesome.com/releases/v5.0.7/css/all.css',
-    //'https://use.fontawesome.com/releases/v5.0.6/webfonts/fa-brands-400.woff2',
-    ////'./style.css',
-    //'./script.js',
+    './index.html',
+    './home.html',
+    './assets/plugins/',
+    './css/style.css',
+    './js/indexedDB_index.js',
+    './js/indexedDB_home.js',
     //'./img/ProgramadorFitness.png',
     //'./img/favicon.png'
   ]
