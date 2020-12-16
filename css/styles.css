@@ -5,8 +5,9 @@
   list-style: none;
 }
 .logout a { padding: 0px; }
-body{
+html, body {
   overflow-x: hidden;
+  width: 100%;
 }
 .no_seleccionable {
   -webkit-user-select: none;
