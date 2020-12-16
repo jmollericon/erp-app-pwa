@@ -1,8 +1,3 @@
-.main {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-}
-.color_uno {
-  color: #99979c;
-}
+.main { height: 100vh; display: flex; align-items: center }
+.color_uno { color: #99979c; }
+.cursor { cursor: pointer; }

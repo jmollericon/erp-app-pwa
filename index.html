@@ -33,7 +33,6 @@
                         <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>
                       </div>
                       <input type="text" class="form-control" name="login_username" id="login_username" aria-describedby="helpId" placeholder="Nombre de usuario" required>
-                      <!-- <small id="helpId" class="form-text text-muted">Help text</small> -->
                     </div>
                   </div>
                   <div class="form-group mt-2">
@@ -52,7 +51,7 @@
             </form>
             <div class="row mt-3">
               <div class="col-md-12 text-center">
-                <span class="color_uno" id="btn_continuar_sin_iniciar_sesion">Continuar sin iniciar sesión</span>
+                <span class="color_uno cursor" id="btn_continuar_sin_iniciar_sesion">Continuar sin iniciar sesión</span>
               </div>
             </div>
           </div>
@@ -72,64 +71,21 @@
   <script src="./js/indexedDB_index.js"></script>
   <script src="app.js"></script>
   <script>
+    function verificar_conexion() {
+      console.log(window.navigator.onLine);
+      return window.navigator.onLine;
+    }
+    window.addEventListener('online',  verificar_conexion);
+    window.addEventListener('offline', verificar_conexion);
 
-/*
-    var request = window.indexedDB.open('ERP_APP_DB', 1);
-    var db;
-    request.onerror = function(event) {
-      // Error al abrir la db
-      console.log('[onerror]', request.error);
-    };
-    request.onsuccess = function(event) {
-      // Proceso exitoso al abrir la db
-      console.log('[onsuccess]', request.result);
-      db = request.result; // === request.result
-
-      var dummyData = [
-        {
-          "personal_id": "1",
-          "first_name": "Carlos"
-        },
-        {
-          "personal_id":  "2",
-          "first_name": "Jhon"
-        }
-      ];
-      // puede ser readonly o readwrite
-      var transaction = db.transaction(["customers"], "readwrite");
-
-      // Agregando los datos en el objectStore
-      var objectStore = transaction.objectStore("myUsers") ;
-      dummyData.forEach(
-        function(customer){
-          var request = objectStore.add(customer);
-        }
-      );
-    };
-
-    //var transaction = db.transaction(["customers"], "readwrite");
-*/
-
-
-  function verificar_conexion() {
-    console.log(window.navigator.onLine);
-    return window.navigator.onLine;
-  }
-  window.addEventListener('online',  verificar_conexion);
-  window.addEventListener('offline', verificar_conexion);
-
-  if(window.indexedDB){
-    console.log('IndexedDB is supported');
-  }
-
+    if(window.indexedDB){
+      console.log('IndexedDB is supported');
+    }
+    // Iniciar sesión
     $('#form_login').submit(async function (e) {
       e.preventDefault();
       const username = $('#login_username').val();
       const password = $('#login_password').val();
-
-      /*const response = await fetch('http://181.188.168.144:8080/desarrollo/dev/login.php', {method: 'POST', mode: 'cors', cache: 'no-cache',})
-      */
-      //'http://sgafoi.coopelect.com/rest/Admin/servicios',
       if(window.navigator.onLine) {
         Swal.fire({
           html: 'Iniciando Sesión',
@@ -138,7 +94,7 @@
         Swal.showLoading();
         $.ajax({
           type: "post",
-          //url: "https://sgafoi.coopelect.com/rest/Admin/servicios",
+          //url: "https://sgafoi.coopelect.com/rest/App/login",
           url: "http://localhost/erp-base-ci/rest/App/login",
           data: {username, password},
           dataType: "json",
@@ -158,6 +114,11 @@
       } else {
         time_alert('error', '', 'No hay conexión a internet', 2000)
       }
+    });
+    // Iniciar sesión como invitado
+    $('#btn_continuar_sin_iniciar_sesion').on('click', function () {
+      add_data_sesion('invitado', 'usuario invitado', '0', 'home');
+      window.location = './home.html'
     });
   </script>
 </body>
