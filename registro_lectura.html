@@ -53,8 +53,45 @@
       </nav>
       <span><strong>Tipo usuario: </strong><span id="sesion_user_type"></span></span><br>
       <h4>Registro de Lecturas</h4>
+    </div>
   </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <button type="button" id="" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_nuevo_registro"><i class="fa fa-plus"></i> Nuevo registro</button>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-12">
+        <div class="card" onclick="registrar_lectura_mes('2020-10')">
+          <div class="card-body p-1">
+            <span class="ml-2">Octubre 2020</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+<!-- Modal Nuevo Registro-->
+<div class="modal fade" id="modal_nuevo_registro" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Nuevo registro</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <!-- JQuery 3.5.1 - js -->
   <script src="./assets/plugins/jquery/3.5.1/jquery.min.js"></script>
@@ -73,6 +110,9 @@
       e.preventDefault();
       eliminar_data_sesion();
     });
+    function registrar_lectura_mes(anio_mes) {
+      console.log('registrando del mes', anio_mes)
+    }
   </script>
 </body>
 </html>
