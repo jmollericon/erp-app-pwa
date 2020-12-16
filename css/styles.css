@@ -15,3 +15,9 @@ html, body {
   -ms-user-select: none;
   user-select: none;
 }
+
+.contenedor_datos {
+  background-color: rgba(240, 240, 240, 0.3);
+  height: 50vh;
+  overflow: scroll;
+}

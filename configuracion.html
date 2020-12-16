@@ -35,10 +35,10 @@
             <li class="nav-item">
               <a class="nav-link" href="#"><i class="fa fa-phone"></i>&nbsp; Contactos</a>
             </li>
-            <li class="nav-item active opcion_user_adm">
+            <li class="nav-item opcion_user_adm">
               <a class="nav-link" href="./registro_lectura.html"><i class="fa fa-pencil"></i>&nbsp; Registro de lecturas</a>
             </li>
-            <li class="nav-item opcion_user_adm">
+            <li class="nav-item active opcion_user_adm">
               <a class="nav-link" href="./configuracion.html"><i class="fa fa-cog"></i>&nbsp; Configuración</a>
             </li>
           </ul>
@@ -55,20 +55,53 @@
         </div>
       </nav>
       <span><strong>Tipo usuario: </strong><span id="sesion_user_type"></span></span><br>
-      <h5>Registro de Lecturas</h4>
+      <h5>Configuraciones</h5>
     </div>
   </div>
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <button type="button" id="" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_nuevo_registro"><i class="fa fa-plus"></i> Nuevo registro</button>
+        <span>Actualización de datos: </span><br />
+      </div>
+      <div class="col-md-12 text-center">
+        <button type="button" id="btn_actualizar_datos" class="btn btn-info btn-sm"><i class="fa fa-refresh"></i> Actualizar datos</button><br />
+        <small class="color_uno">Ultima actualización: 12/12/2020 12:22:09</small>
       </div>
     </div>
     <div class="row mt-2">
       <div class="col-md-12">
-        <div class="card" onclick="registrar_lectura_mes('2020-10')">
-          <div class="card-body p-1">
-            <span class="ml-2">Octubre 2020</span>
+        <ul class="nav nav-tabs justify-content-center">
+          <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Circuitos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Zonas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Calles</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="contenedor_datos">
+              <div id="contenedor_circuitos">
+                <!-- dinamico -->
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="contenedor_datos">
+              <div id="contenedor_zonas">
+                <!-- dinamico -->
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <div class="contenedor_datos">
+              <div id="contenedor_calles">
+                <!-- dinamico -->
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -130,6 +163,26 @@
     function registrar_lectura_mes(anio_mes) {
       console.log('registrando del mes', anio_mes)
     }
+    // Actualizar Circuitos, Zonas y Calles en IndexedDB
+    $('#btn_actualizar_datos').on('click', function () {
+      Swal.fire({
+        html: 'Actualizando datos',
+        allowOutsideClick: false // evitar que se cierre si se hace click fuera del modal
+      });
+      Swal.showLoading();
+      $.ajax({
+        type: "get",
+        url: BASE_URL+"rest/App/direcciones",
+        dataType: "json",
+        success: async function (response) {
+          const res = await almacenar_direcciones_indexedDB(response);
+          await renderizar_direcciones_desde_indexedDB();
+          console.log('res almacenar dir into indexedDB', res)
+          Swal.close();
+          time_alert('success', '', 'Actualizado.', 2000)
+        }
+      });
+    });
   </script>
 </body>
 </html>

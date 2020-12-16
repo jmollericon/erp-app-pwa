@@ -1,3 +1,4 @@
+const BASE_URL            = 'http://localhost/erp-base-ci/'; // https://sgafoi.coopelect.com/
 const DB_NAME             = 'erp_app_db';
 const DB_VERSION          = 1; // Use a long long for this value (don't use a float)
 const DB_STORE_NAME_ONE   = 'data_sesion';

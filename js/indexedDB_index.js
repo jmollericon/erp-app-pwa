@@ -25,18 +25,18 @@ function openDB() {
     store_two.createIndex('year', 'year', { unique: false });*/
 
     // STORE THREE - data_circuito
-    var store_three = evt.currentTarget.result.createObjectStore(DB_STORE_NAME_THREE, { keyPath: 'id', autoIncrement: true });
+    var store_three = evt.currentTarget.result.createObjectStore(DB_STORE_NAME_THREE, { keyPath: 'Id_Circuito' });
     store_three.createIndex('Id_Circuito', 'Id_Circuito', { unique: true });
     store_three.createIndex('Sigla', 'Sigla', { unique: false });
     store_three.createIndex('Circuito', 'Circuito', { unique: false });
     // STORE FOUR - data_zona
-    var store_four = evt.currentTarget.result.createObjectStore(DB_STORE_NAME_FOUR, { keyPath: 'id', autoIncrement: true });
+    var store_four = evt.currentTarget.result.createObjectStore(DB_STORE_NAME_FOUR, { keyPath: 'Id_Zona' });
     store_four.createIndex('Id_Zona', 'Id_Zona', { unique: true });
     store_four.createIndex('Localidad', 'Localidad', { unique: false });
     store_four.createIndex('Sigla', 'Sigla', { unique: false });
     store_four.createIndex('Zona', 'Zona', { unique: false });
     // STORE FIVE - data_calle
-    var store_five = evt.currentTarget.result.createObjectStore(DB_STORE_NAME_FIVE, { keyPath: 'id', autoIncrement: true });
+    var store_five = evt.currentTarget.result.createObjectStore(DB_STORE_NAME_FIVE, { keyPath: 'Id_Calle' });
     store_five.createIndex('Id_Calle', 'Id_Calle', { unique: true });
     store_five.createIndex('Circuito', 'Circuito', { unique: false });
     store_five.createIndex('Zona', 'Zona', { unique: false });
