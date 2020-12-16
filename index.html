@@ -94,8 +94,8 @@
         Swal.showLoading();
         $.ajax({
           type: "post",
-          url: "https://sgafoi.coopelect.com/rest/App/login",
-          //url: "http://localhost/erp-base-ci/rest/App/login",
+          //url: "https://sgafoi.coopelect.com/rest/App/login",
+          url: "http://localhost/erp-base-ci/rest/App/login",
           data: {username, password},
           dataType: "json",
           success: function (response) {

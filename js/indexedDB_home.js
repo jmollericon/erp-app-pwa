@@ -22,9 +22,9 @@ function verificar_inicio_sesion_home() {
       $('#sesion_name').text(data_sesion.name);
       $('#sesion_user_type').text(data_sesion.user_type);
       $('.opcion_user_adm').show();
-      if(data_sesion.user_type == 0) {
+      /*if(data_sesion.user_type == 0) {
         $('.opcion_user_adm').hide();
-      }
+      }*/
     }
   }
 }
