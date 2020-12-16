@@ -19,16 +19,16 @@ function verificar_inicio_sesion_registro_lectura() {
       window.location = './index.html'
     } else {
       const data_sesion = e.target.result.value;
-      if(data_sesion.user_type == 0) {
+      /*if(data_sesion.user_type == 0) {
         window.location = './home.html'
-      } else {
+      } else {*/
         $('#sesion_name').text(data_sesion.name);
         $('#sesion_user_type').text(data_sesion.user_type);
         $('.opcion_user_adm').show();
         /*if(data_sesion.user_type == 0) {
           $('.opcion_user_adm').hide();
         }*/
-      }
+      //}
     }
   }
 }
