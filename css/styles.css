@@ -1,3 +1,7 @@
 .main { height: 100vh; display: flex; align-items: center }
 .color_uno { color: #99979c; }
 .cursor { cursor: pointer; }
+.logout {
+  list-style: none;
+}
+.logout a { padding: 0px; }

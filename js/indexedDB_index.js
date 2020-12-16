@@ -1,28 +1,10 @@
-const DB_NAME             = 'erp_app_db';
-const DB_VERSION          = 1; // Use a long long for this value (don't use a float)
-const DB_STORE_NAME_ONE   = 'data_sesion';
-const DB_STORE_NAME_TWO   = 'data_abonado';
-const DB_STORE_NAME_THREE = 'data_circuito';
-const DB_STORE_NAME_FOUR  = 'data_zona';
-const DB_STORE_NAME_FIVE  = 'data_calle';
-const DB_STORE_NAME_SIX   = 'data_lectura';
-
-var db;
-
-// Used to keep track of which view is displayed to avoid uselessly reloading it
-var current_view_pub_key; // ?
-
 function openDB() {
   console.log("abriendo openDB");
   const request = indexedDB.open(DB_NAME, DB_VERSION);
   request.onsuccess = function (evt) {
-    // Better use "this" than "req" to get the result to avoid problems with
-    // garbage collection.
-    // db = req.result;
     db = this.result;
     console.log("openDB DONE");
     verificar_inicio_sesion_index();
-    //eliminar_data_sesion();
   };
   request.onerror = function (evt) {
     console.error("openDB:", evt.target.errorCode);

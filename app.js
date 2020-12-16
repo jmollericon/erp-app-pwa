@@ -1,3 +1,13 @@
+const DB_NAME             = 'erp_app_db';
+const DB_VERSION          = 1; // Use a long long for this value (don't use a float)
+const DB_STORE_NAME_ONE   = 'data_sesion';
+const DB_STORE_NAME_TWO   = 'data_abonado';
+const DB_STORE_NAME_THREE = 'data_circuito';
+const DB_STORE_NAME_FOUR  = 'data_zona';
+const DB_STORE_NAME_FIVE  = 'data_calle';
+const DB_STORE_NAME_SIX   = 'data_lectura';
+var db;
+
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js')
     .then(reg => {
@@ -8,28 +18,6 @@ if ('serviceWorker' in navigator) {
       console.log('Error al tratar de registrar el sw', err)
     })
 }
-// indexedDB
-/*var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-var dataBase = null;
-function startDB() {
-  dataBase = indexedDB.open("erp_app_db", 1);
-  dataBase.onupgradeneeded = function (e) {
-    active    = dataBase.result;
-    usuarios  = active.createObjectStore("data_sesion", { keyPath : 'id', autoIncrement : true });
-    var username  = usuarios.createIndex('by_username', 'username', { unique : true });
-    var name      = usuarios.createIndex('by_name', 'name', { unique : false });
-    var user_type = usuarios.createIndex('by_user_type', 'user_type', { unique : false });
-  };
-  dataBase.onsuccess = function (e) {
-    console.log('Base de datos cargada correctamente');
-  };
-  dataBase.onerror = function (e)  {
-    console.log('Error cargando la base de datos');
-  };
-  return dataBase;
-}
-startDB();*/
-
 function time_alert(type, title, message_html, time) {
   return new Promise((resolve, reject) => {
       Swal.fire({
@@ -41,7 +29,6 @@ function time_alert(type, title, message_html, time) {
           timer: time
       }).then(() => resolve(true));
   })
-  
 }
 function ok_alert(type, title, message_html) {
   return new Promise((resolve, reject) => {
@@ -53,7 +40,6 @@ function ok_alert(type, title, message_html) {
           confirmButtonText: '<i class="fa fa-check" aria-hidden="true"></i> Aceptar',
       }).then(() => resolve(true));
   })
-  
 }
 function msg_confirmation(type, title, message_html) {
   return new Promise((resolve, reject) => {
