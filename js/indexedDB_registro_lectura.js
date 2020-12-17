@@ -72,9 +72,9 @@ function registrar_mes_indexedDB(mes, mes_literal) {
     if(e.target.result) { // Inició sesión
       const data_sesion = e.target.result.value;
       console.log(data_sesion)
-      if(data_sesion.user_type == 0) {
-        window.location = './index.html';
-      } else {
+      /*if(data_sesion.user_type == 0) {
+        window.location = './home.html';
+      } else {*/
         const username      = data_sesion.username;
         const hoy           = new Date();
         const created_at    = hoy.getFullYear()+'-'+(hoy.getMonth()+1)+'-'+hoy.getDate()+' '+hoy.getHours()+':'+hoy.getMinutes()+':'+hoy.getSeconds();
@@ -93,7 +93,7 @@ function registrar_mes_indexedDB(mes, mes_literal) {
           console.log("data lectura error", this.error);
           time_alert('error', '', 'Mes ya registrado.', 2000)
         };
-      }
+      /*}*/
     } else {
       window.location = './index.html';
     }
