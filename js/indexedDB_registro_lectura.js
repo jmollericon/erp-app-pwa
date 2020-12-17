@@ -1,3 +1,4 @@
+let data_direcciones = {};
 function openDB() {
   console.log("abriendo openDB");
   const request = indexedDB.open(DB_NAME, DB_VERSION);
@@ -6,6 +7,7 @@ function openDB() {
     console.log("openDB DONE");
     verificar_inicio_sesion_registro_lectura();
     renderizar_lecturas_desde_indexedDB();
+    obtener_direcciones_desde_indexedDB() /* Circuitos, Zonas y Calles */
   };
   request.onerror = function (evt) {
     console.error("openDB:", evt.target.errorCode);
@@ -98,4 +100,74 @@ function registrar_mes_indexedDB(mes, mes_literal) {
       window.location = './index.html';
     }
   }
+}
+// Obtener Circuitos, Zonas y Calles
+function get_circuitos_desde_indexedDB() {
+  let circuitos       = [];
+  const response      = {};
+  const transaction   = db.transaction([DB_STORE_NAME_THREE], 'readonly');
+  const objectStore   = transaction.objectStore(DB_STORE_NAME_THREE);
+  const request       = objectStore.openCursor();
+  request.onsuccess = function (e) {
+    const cursor    = e.target.result;
+    if(cursor) {
+      circuitos.push(cursor.value);
+      cursor.continue();
+    } else {
+      response.read = 'success';
+      response.data = circuitos;
+    }
+  };
+  request.onerror = function() {
+    response.read = 'error';
+  };
+  return response;
+}
+function get_zonas_desde_indexedDB() {
+  let zonas           = [];
+  const response      = {};
+  const transaction   = db.transaction([DB_STORE_NAME_FOUR], 'readonly');
+  const objectStore   = transaction.objectStore(DB_STORE_NAME_FOUR);
+  const request       = objectStore.openCursor();
+  request.onsuccess = function (e) {
+    const cursor      = e.target.result;
+    if(cursor) {
+      zonas.push(cursor.value);
+      cursor.continue();
+    } else {
+      response.read = 'success';
+      response.data = zonas;
+    }
+  };
+  request.onerror = function() {
+    response.read = 'error';
+  };
+  return response;
+}
+function get_calles_desde_indexedDB() {
+  let calles          = [];
+  const response      = {};
+  const transaction   = db.transaction([DB_STORE_NAME_FIVE], 'readonly');
+  const objectStore   = transaction.objectStore(DB_STORE_NAME_FIVE);
+  const request       = objectStore.openCursor();
+  request.onsuccess = function (e) {
+    const cursor      = e.target.result;
+    if(cursor) {
+      calles.push(cursor.value);
+      cursor.continue();
+    } else {
+      response.read = 'success';
+      response.data = calles;
+    }
+  };
+  request.onerror = function() {
+    response.read = 'error';
+  };
+  return response;
+}
+function obtener_direcciones_desde_indexedDB() {
+  /* data_direcciones se usa desde registro_lectura.html */
+  data_direcciones.circuitos = get_circuitos_desde_indexedDB();  /* Leer Circuitos */
+  data_direcciones.zonas     = get_zonas_desde_indexedDB();      /* Leer Zonas */
+  data_direcciones.calles    = get_calles_desde_indexedDB();     /* Leer Calles */
 }

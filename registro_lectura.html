@@ -14,8 +14,6 @@
   <!-- Erp App PWA 1.0.0 - css -->
   <link rel="stylesheet" href="css/styles.css">
 
-  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-
 </head>
 <body>
   <div class="row text-center">
@@ -127,95 +125,30 @@
           <div class="row">
             <div class="col-md-12">
               <label for="registrar_lectura_circuito" class="m-0">Circuito</label>
-              <select class="select2" id="registrar_lectura_circuito" style="width: 100%;">
-                <option value="1">opcion 1</option>
-                <option value="2">opcion 2</option>
-                <option value="3">opcion 3</option>
-                <option value="4">opcion 4</option>
-                <option value="43">opcion 43</option>
-                <option value="24">opcion 44</option>
-                <option value="44">opcion 44</option>
-                <option value="45">opcion 45</option>
-                <option value="46">opcion 46</option>
-                <option value="47">opcion 47</option>
-                <option value="48">opcion 48</option>
-                <option value="19">opcion 19</option>
-                <option value="40">opcion 40</option>
-                <option value="411">opcion 411</option>
-                <option value="412">opcion 412</option>
-                <option value="413">opcion 413</option>
-                <option value="414">opcion 414</option>
-                <option value="415">opcion 415</option>
-                <option value="416">opcion 416</option>
-                <option value="117">opcion 117</option>
-                <option value="418">opcion 418</option>
-                <option value="419">opcion 419</option>
-                <option value="420">opcion 420</option>
-                <option value="421">opcion 421</option>
-                <option value="422">opcion 422</option>
-                <option value="423">opcion 423</option>
-                <option value="424">opcion 424</option>
-                <option value="125">opcion 125</option>
-                <option value="426">opcion 426</option>
-                <option value="440">opcion 440</option>
-                <option value="427">opcion 427</option>
-                <option value="428">opcion 428</option>
-                <option value="429">opcion 429</option>
-                <option value="430">opcion 430</option>
-                <option value="439">opcion 439</option>
+              <select class="form-control" id="registrar_lectura_circuito" required>
+                <!-- dinamico -->
               </select>
             </div>
           </div>
           <div class="row mt-1">
             <div class="col-md-12">
               <label for="registrar_lectura_zona" class="m-0">Zona</label>
-              <select class="select2" id="registrar_lectura_zona" style="width: 100%;">
-                <option value="1">opcion 1</option>
+              <select class="form-control" id="registrar_lectura_zona" required>
+                <!-- dinamico -->
               </select>
             </div>
           </div>
           <div class="row mt-1">
             <div class="col-md-12">
               <label for="registrar_lectura_calle" class="m-0">Calle</label>
-              <select class="form-control" id="registrar_lectura_calle">
-                <option value="1">opcion 1</option>
-                <option value="43">opcion 43</option>
-                <option value="24">opcion 44</option>
-                <option value="44">opcion 44</option>
-                <option value="45">opcion 45</option>
-                <option value="46">opcion 46</option>
-                <option value="47">opcion 47</option>
-                <option value="48">opcion 48</option>
-                <option value="19">opcion 19</option>
-                <option value="40">opcion 40</option>
-                <option value="411">opcion 411</option>
-                <option value="412">opcion 412</option>
-                <option value="413">opcion 413</option>
-                <option value="414">opcion 414</option>
-                <option value="415">opcion 415</option>
-                <option value="416">opcion 416</option>
-                <option value="117">opcion 117</option>
-                <option value="418">opcion 418</option>
-                <option value="419">opcion 419</option>
-                <option value="420">opcion 420</option>
-                <option value="421">opcion 421</option>
-                <option value="422">opcion 422</option>
-                <option value="423">opcion 423</option>
-                <option value="424">opcion 424</option>
-                <option value="125">opcion 125</option>
-                <option value="426">opcion 426</option>
-                <option value="440">opcion 440</option>
-                <option value="427">opcion 427</option>
-                <option value="428">opcion 428</option>
-                <option value="429">opcion 429</option>
-                <option value="430">opcion 430</option>
-                <option value="439">opcion 439</option>
+              <select class="form-control" id="registrar_lectura_calle" required>
+                <!-- dinamico -->
               </select>
             </div>
           </div>
           <div class="row mt-3">
             <div class="col-md-12 text-center">
-              <button type="submit" class="btn btn-primary btn-sm">Registrar</button>
+              <button type="submit" class="btn btn-primary btn-sm">Continuar</button>
               <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
             </div>
           </div>
@@ -233,8 +166,7 @@
   <script src="./assets/plugins/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <!-- SweetAlert2 - js -->
   <script src="./assets/plugins/sweetalert2/sweetalert2@10.js"></script>
-  
-  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
   <!-- Erp App PWA 1.0.0 - js -->
   <script src="app.js"></script> <!-- Execute ServiceWorker -->
   <script src="./js/indexedDB_registro_lectura.js"></script>
@@ -261,10 +193,31 @@
       const mes_literal = nombre_mes[parseInt(fecha[1]-1)]+' '+fecha[0];
       console.log('registrando del mes', mes_literal)
       $('#nombre_mes').text(mes_literal);
+      const opciones_circuitos = data_direcciones.circuitos.data.map((c) => `<option value="${c.Id_Circuito}">${c.Circuito}</option>`).join('');
+      $('#registrar_lectura_circuito').empty().append(opciones_circuitos).change();
       $('#modal_paso_registrar_lecturas').modal('show');
     }
-    $(document).ready(function () {
-      $('.select2').select2();
+    $('#registrar_lectura_circuito').on('change', function() {
+      const Id_Circuito     = $('#registrar_lectura_circuito').val();
+      const zonas_filtrado  = data_direcciones.zonas.data.filter((c) => (true));
+      const opciones_zonas  = zonas_filtrado.map((z) => `<option value="${z.Id_Zona}">${z.Zona}</option>`).join('');
+      $('#registrar_lectura_zona').empty().append(opciones_zonas).change();
+    });
+    $('#registrar_lectura_zona').on('change', function() {
+      const Id_Zona         = $('#registrar_lectura_zona').val();
+      const Id_Circuito     = $('#registrar_lectura_circuito').val();
+      const calles_filtrado = data_direcciones.calles.data.filter((c) => (c.Circuito == Id_Circuito && c.Zona == Id_Zona));
+      const opciones_zonas  = calles_filtrado.map((c) => `<option value="${c.Id_Calle}">${c.Calle}</option>`).join('');
+      $('#registrar_lectura_calle').empty().append(opciones_zonas).change();
+    });
+    $('#form_paso_registrar_lecturas').submit(function (e) {
+      e.preventDefault();
+      const data_lectura = {
+        Id_Zona:      $('#registrar_lectura_zona').val(),
+        Id_Circuito:  $('#registrar_lectura_circuito').val(),
+        Id_Calle:     $('#registrar_lectura_calle').val(),
+      }
+      console.log('continuando', data_lectura)
     });
   </script>
 </body>
