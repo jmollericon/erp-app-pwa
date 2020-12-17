@@ -66,10 +66,8 @@
     </div>
     <div class="row mt-2">
       <div class="col-md-12">
-        <div class="card" onclick="registrar_lectura_mes('2020-10')">
-          <div class="card-body p-1">
-            <span class="ml-2">Octubre 2020</span>
-          </div>
+        <div class="list-group" id="lista_lecturas">
+          <!-- dinamico -->
         </div>
       </div>
     </div>
@@ -117,6 +115,7 @@
   <script src="./js/indexedDB_registro_lectura.js"></script>
 
   <script>
+    const nombre_mes = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     // Cerrar Sesión
     $('#btn_logout').on('click', function (e) {
       e.preventDefault();
@@ -124,11 +123,17 @@
     });
     $('#form_nuevo_registro').submit(function (e) {
       e.preventDefault();
-      const anio_mes = $('#registro_anio_mes').val();
-      console.log('registrando', anio_mes);
+      const anio_mes    = $('#registro_anio_mes').val();
+      const fecha       = anio_mes.split('-');
+      const mes_literal = nombre_mes[parseInt(fecha[1]-1)]+' '+fecha[0];
+      registrar_mes_indexedDB(anio_mes, mes_literal);
+      console.log('registrando', mes_literal)
     });
     function registrar_lectura_mes(anio_mes) {
-      console.log('registrando del mes', anio_mes)
+      console.log(anio_mes)
+      const fecha       = anio_mes.split('-');
+      const mes_literal = nombre_mes[parseInt(fecha[1]-1)]+' '+fecha[0];
+      console.log('registrando del mes', mes_literal)
     }
   </script>
 </body>

@@ -43,11 +43,16 @@ function openDB() {
     store_five.createIndex('Sigla', 'Sigla', { unique: false });
     store_five.createIndex('Calle', 'Calle', { unique: false });
     // STORE SIX - data_lectura
-    var store_six = evt.currentTarget.result.createObjectStore(DB_STORE_NAME_SIX, { keyPath: 'id', autoIncrement: true });
-    store_six.createIndex('Id_Lectura', 'Id_Lectura', { unique: true });
+    var store_six = evt.currentTarget.result.createObjectStore(DB_STORE_NAME_SIX, { keyPath: 'mes' });
+    store_six.createIndex('mes', 'mes', { unique: true });
+    store_six.createIndex('mes_literal', 'mes_literal', { unique: false });
+    store_six.createIndex('username', 'username', { unique: false });
+    store_six.createIndex('created_at', 'created_at', { unique: false });
+    
+    /* store_six.createIndex('Id_Lectura', 'Id_Lectura', { unique: true });
     store_six.createIndex('Abonado', 'Abonado', { unique: false });
     store_six.createIndex('Lectura_Anterior', 'Lectura_Anterior', { unique: false });
-    store_six.createIndex('Lectura_Actual', 'Lectura_Actual', { unique: false });
+    store_six.createIndex('Lectura_Actual', 'Lectura_Actual', { unique: false }); */
   };
 }
 function add_data_sesion(username, name, user_type, page) {
@@ -70,7 +75,7 @@ function verificar_inicio_sesion_index() {
   const objectStore = transaction.objectStore(DB_STORE_NAME_ONE)
   const request     = objectStore.openCursor()
   request.onsuccess = function(e){
-    if(e.target.result) { // No inició sesión
+    if(e.target.result) { // Inició sesión
       const data_sesion = e.target.result.value;
       console.log(data_sesion)
       if(data_sesion.page == 'home')
