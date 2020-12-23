@@ -3,7 +3,8 @@
 .cursor_pointer { cursor: pointer; }
 .logout { list-style: none; }
 .logout a { padding: 0px; }
-.descripcion_direccion table{ width: 100%; text-align: center; font-size: 0.8rem; }
+.descripcion_direccion { font-size: 0.8rem; }
+.descripcion_direccion table{ width: 100%; }
 html, body {
   overflow-x: hidden;
   width: 100%;

@@ -1,4 +1,4 @@
-let Id_Circuito = 0, Id_Zona = 0, Id_Calle = 0;
+let Id_Circuito = 0, Id_Zona = 0, Id_Calle = 0, Anio_Mes = '';
 function openDB() {
   console.log("abriendo openDB");
   const request = indexedDB.open(DB_NAME, DB_VERSION);
@@ -37,10 +37,11 @@ function verificar_inicio_sesion_lectura_registro() {
 }
 openDB();
 // Obtener datos enviados desde lectura.html
-const parametros = window.location.search.substr(1).split('-');
+const parametros = window.location.search.substr(1).split('+');
 Id_Circuito = parametros[0];
 Id_Zona     = parametros[1];
 Id_Calle    = parametros[2];
+Anio_Mes    = parametros[3];
 
 // Leer Lectura desde IndexedDB
 function renderizar_lectura_registros_desde_indexedDB_by_CZC() {
@@ -144,4 +145,5 @@ function obtener_direccion_CZC_desde_indexedDB() {
   get_circuito_by_id_desde_indexedDB();  /* Leer Circuito by Id_Circuito */
   get_zona_by_id_desde_indexedDB();      /* Leer Zona by Id_Zona */
   get_calle_by_id_desde_indexedDB();     /* Leer Calle by Id_Calle */
+  $('#mes_registro').text(Anio_Mes);
 }

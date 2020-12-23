@@ -116,6 +116,7 @@
         </div>
         <div class="modal-body">
           <form action="#" id="form_paso_registrar_lecturas">
+            <input type="text" id="registrar_lectura_anio_mes" hidden>
             <div class="row">
               <div class="col-md-12 text-center">
                 <button type="button" class="btn btn-success btn-sm"><i class="fa fa-cloud-download" aria-hidden="true"></i> Obtener Datos <span id="nombre_mes"></span></button><br />
@@ -196,6 +197,7 @@
       $('#nombre_mes').text(mes_literal);
       $('#cantidad_registros').text(cantidad_registros+' registros descargados');
       $('#fecha_registros').text((fecha_registros == '-') ? '-':fecha_registros.split(' ')[0].split('-').reverse().join('/')+' '+fecha_registros.split(' ')[1]);
+      $('#registrar_lectura_anio_mes').val(anio_mes);
       const opciones_circuitos = data_direcciones.circuitos.data.map((c) => `<option value="${c.Id_Circuito}">${c.Circuito}</option>`).join('');
       $('#registrar_lectura_circuito').empty().append(opciones_circuitos).change();
       $('#modal_paso_registrar_lecturas').modal('show');
@@ -218,7 +220,8 @@
       const Id_Circuito = $('#registrar_lectura_circuito').val();
       const Id_Zona     = $('#registrar_lectura_zona').val();
       const Id_Calle    = $('#registrar_lectura_calle').val();
-      window.location   = `./lectura_registro.html?${Id_Circuito}-${Id_Zona}-${Id_Calle}`;
+      const anio_mes    = $('#registrar_lectura_anio_mes').val();
+      window.location   = `./lectura_registro.html?${Id_Circuito}+${Id_Zona}+${Id_Calle}+${anio_mes}`;
     });
   </script>
 </body>
