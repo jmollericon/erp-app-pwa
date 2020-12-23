@@ -1,10 +1,9 @@
 .main { height: 100vh; display: flex; align-items: center }
 .color_uno { color: #99979c; }
-.cursor { cursor: pointer; }
-.logout {
-  list-style: none;
-}
+.cursor_pointer { cursor: pointer; }
+.logout { list-style: none; }
 .logout a { padding: 0px; }
+.descripcion_direccion table{ width: 100%; text-align: center; font-size: 0.8rem; }
 html, body {
   overflow-x: hidden;
   width: 100%;
