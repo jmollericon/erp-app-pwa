@@ -55,14 +55,18 @@
           </span>
         </div>
       </nav>
+      <span class="d-block"><strong>Circuito: </strong><span id="circuito_nombre"></span></span>
+      <span class="d-block"><strong>Zona: </strong><span id="zona_nombre"></span></span>
+      <span class="d-block"><strong>Calle: </strong><span id="calle_nombre"></span></span>
+
       <span><strong>Tipo usuario: </strong><span id="sesion_user_type"></span></span><br>
-      <h5>Registro de Lecturas</h4>
+      <h5>Registro de Lecturas</h5>
     </div>
   </div>
   <div class="container">
     <div class="row">
-      <div class="col-md-12">
-        <button type="button" id="" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_nuevo_registro"><i class="fa fa-plus"></i> Nuevo registro</button>
+      <div class="col-md-12 text-right">
+        <a href="./lectura.html" class="btn btn-danger btn-sm"><i class="fa fa-arrow-left"></i> Regresar</a>
       </div>
     </div>
     <div class="row mt-2">
@@ -74,37 +78,7 @@
     </div>
   </div>
 
-  <!-- Modal Nuevo Registro-->
-  <div class="modal fade" id="modal_nuevo_registro" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Nuevo registro</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form action="#" id="form_nuevo_registro">
-            <div class="row">
-              <div class="col-md-12">
-                <label for="registro_anio_mes">Mes</label>
-                <input type="month" id="registro_anio_mes" class="form-control" required>
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-md-12 text-center">
-                <button type="submit" class="btn btn-primary btn-sm">Registrar</button>
-                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Actualizar Datos Empleados, Filtro por Circuitos, Zonas y Calles-->
+  <!-- Modal Registro de Lecturas Final -->
   <div class="modal fade" id="modal_paso_registrar_lecturas" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
       <div class="modal-content">
@@ -169,7 +143,7 @@
 
   <!-- Erp App PWA 1.0.0 - js -->
   <script src="app.js"></script> <!-- Execute ServiceWorker -->
-  <script src="./js/indexedDB_lectura.js"></script>
+  <script src="./js/indexedDB_lectura_registro.js"></script>
   <script src="./js/indexedDB_general.js"></script>
 
   <script>
@@ -178,15 +152,6 @@
     $('#btn_logout').on('click', function (e) {
       e.preventDefault();
       eliminar_data_sesion();
-    });
-    $('#form_nuevo_registro').submit(function (e) {
-      e.preventDefault();
-      const anio_mes            = $('#registro_anio_mes').val();
-      const fecha               = anio_mes.split('-');
-      const mes_literal         = nombre_mes[parseInt(fecha[1]-1)]+' '+fecha[0];
-      const cantidad_registros  = 0;
-      const fecha_registros     = '-';
-      registrar_mes_indexedDB(anio_mes, mes_literal, cantidad_registros, fecha_registros);
     });
     function registrar_lectura_mes(anio_mes, cantidad_registros, fecha_registros) {
       console.log(anio_mes, cantidad_registros, fecha_registros)
@@ -219,6 +184,10 @@
       const Id_Zona     = $('#registrar_lectura_zona').val();
       const Id_Calle    = $('#registrar_lectura_calle').val();
       window.location   = `./lectura_registro.html?${Id_Circuito}-${Id_Zona}-${Id_Calle}`;
+
+      var paramstr = window.location.search.substr(1);
+      console.log(paramstr)
+
     });
   </script>
 </body>

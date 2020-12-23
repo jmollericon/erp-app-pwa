@@ -1,19 +1,19 @@
-let data_direcciones = {};
+let Id_Circuito = 0, Id_Zona = 0, Id_Calle = 0;
 function openDB() {
   console.log("abriendo openDB");
   const request = indexedDB.open(DB_NAME, DB_VERSION);
   request.onsuccess = function (evt) {
     db = this.result;
     console.log("openDB DONE");
-    verificar_inicio_sesion_lectura();
-    renderizar_lecturas_desde_indexedDB();
-    obtener_direcciones_desde_indexedDB() /* Circuitos, Zonas y Calles */
+    verificar_inicio_sesion_lectura_registro();
+    obtener_direccion_CZC_desde_indexedDB() /* Circuitos, Zonas y Calles */
+    renderizar_lectura_registros_desde_indexedDB_by_CZC();
   };
   request.onerror = function (evt) {
     console.error("openDB:", evt.target.errorCode);
   };
 }
-function verificar_inicio_sesion_lectura() {
+function verificar_inicio_sesion_lectura_registro() {
   const transaction = db.transaction([DB_STORE_NAME_ONE], 'readonly')
   const objectStore = transaction.objectStore(DB_STORE_NAME_ONE)
   const request     = objectStore.openCursor()
@@ -36,9 +36,15 @@ function verificar_inicio_sesion_lectura() {
   }
 }
 openDB();
+// Obtener datos enviados desde lectura.html
+const parametros = window.location.search.substr(1).split('-');
+Id_Circuito = parametros[0];
+Id_Zona     = parametros[1];
+Id_Calle    = parametros[2];
 
 // Leer Lectura desde IndexedDB
-function renderizar_lecturas_desde_indexedDB() {
+function renderizar_lectura_registros_desde_indexedDB_by_CZC() {
+  console.log('Renderizar: ', Id_Circuito, Id_Zona, Id_Calle);
   let data_lecturas  = [];
   const transaction   = db.transaction([DB_STORE_NAME_SIX], 'readonly');
   const objectStore   = transaction.objectStore(DB_STORE_NAME_SIX);
@@ -65,7 +71,7 @@ function renderizar_lecturas_desde_indexedDB() {
   };
 }
 // Registrar Lectura (mes)
-function registrar_mes_indexedDB(mes, mes_literal, cantidad_registros, fecha_registros) {
+function registrar_mes_indexedDB2(mes, mes_literal, cantidad_registros, fecha_registros) {
   const transaction = db.transaction([DB_STORE_NAME_ONE], 'readonly')
   const objectStore = transaction.objectStore(DB_STORE_NAME_ONE)
   const request     = objectStore.openCursor()
@@ -84,7 +90,7 @@ function registrar_mes_indexedDB(mes, mes_literal, cantidad_registros, fecha_reg
         const objectStore = transaction.objectStore(DB_STORE_NAME_SIX)
         const request = objectStore.add(data_lectura)
         request.onsuccess = function (evt) {
-          renderizar_lecturas_desde_indexedDB();
+          renderizar_lectura_registros_desde_indexedDB_by_CZC();
           time_alert('success', '', 'Registrado!.', 2000)
           .then(() => {
             $('#modal_nuevo_registro').modal('hide');
@@ -100,73 +106,42 @@ function registrar_mes_indexedDB(mes, mes_literal, cantidad_registros, fecha_reg
     }
   }
 }
-// Obtener Circuitos, Zonas y Calles
-function get_circuitos_desde_indexedDB() {
-  let circuitos       = [];
-  const response      = {};
+// Obtener Circuito, Zona y Calle
+function get_circuito_by_id_desde_indexedDB() {
   const transaction   = db.transaction([DB_STORE_NAME_THREE], 'readonly');
   const objectStore   = transaction.objectStore(DB_STORE_NAME_THREE);
-  const request       = objectStore.openCursor();
+  const request       = objectStore.get(Id_Circuito);
   request.onsuccess = function (e) {
-    const cursor    = e.target.result;
-    if(cursor) {
-      circuitos.push(cursor.value);
-      cursor.continue();
-    } else {
-      response.read = 'success';
-      response.data = circuitos;
-    }
+    $('#circuito_nombre').text(request.result.Circuito);
   };
   request.onerror = function() {
-    response.read = 'error';
+    $('#circuito_nombre').text('-');
   };
-  return response;
 }
-function get_zonas_desde_indexedDB() {
-  let zonas           = [];
-  const response      = {};
+function get_zona_by_id_desde_indexedDB() {
   const transaction   = db.transaction([DB_STORE_NAME_FOUR], 'readonly');
   const objectStore   = transaction.objectStore(DB_STORE_NAME_FOUR);
-  const request       = objectStore.openCursor();
+  const request       = objectStore.get(Id_Zona);
   request.onsuccess = function (e) {
-    const cursor      = e.target.result;
-    if(cursor) {
-      zonas.push(cursor.value);
-      cursor.continue();
-    } else {
-      response.read = 'success';
-      response.data = zonas;
-    }
+    $('#zona_nombre').text(request.result.Zona);
   };
   request.onerror = function() {
-    response.read = 'error';
+    $('#zona_nombre').text('-');
   };
-  return response;
 }
-function get_calles_desde_indexedDB() {
-  let calles          = [];
-  const response      = {};
+function get_calle_by_id_desde_indexedDB() {
   const transaction   = db.transaction([DB_STORE_NAME_FIVE], 'readonly');
   const objectStore   = transaction.objectStore(DB_STORE_NAME_FIVE);
-  const request       = objectStore.openCursor();
+  const request       = objectStore.get(Id_Calle);
   request.onsuccess = function (e) {
-    const cursor      = e.target.result;
-    if(cursor) {
-      calles.push(cursor.value);
-      cursor.continue();
-    } else {
-      response.read = 'success';
-      response.data = calles;
-    }
+    $('#calle_nombre').text(request.result.Calle);
   };
   request.onerror = function() {
-    response.read = 'error';
+    $('#calle_nombre').text('-');
   };
-  return response;
 }
-function obtener_direcciones_desde_indexedDB() {
-  /* data_direcciones se usa desde lectura.html */
-  data_direcciones.circuitos = get_circuitos_desde_indexedDB();  /* Leer Circuitos */
-  data_direcciones.zonas     = get_zonas_desde_indexedDB();      /* Leer Zonas */
-  data_direcciones.calles    = get_calles_desde_indexedDB();     /* Leer Calles */
+function obtener_direccion_CZC_desde_indexedDB() {
+  get_circuito_by_id_desde_indexedDB();  /* Leer Circuito by Id_Circuito */
+  get_zona_by_id_desde_indexedDB();      /* Leer Zona by Id_Zona */
+  get_calle_by_id_desde_indexedDB();     /* Leer Calle by Id_Calle */
 }
