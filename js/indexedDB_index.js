@@ -47,8 +47,10 @@ function openDB() {
     store_six.createIndex('mes', 'mes', { unique: true });
     store_six.createIndex('mes_literal', 'mes_literal', { unique: false });
     store_six.createIndex('username', 'username', { unique: false });
+    store_six.createIndex('cantidad_registros', 'cantidad_registros', { unique: false });
+    store_six.createIndex('fecha_registros', 'fecha_registros', { unique: false });
     store_six.createIndex('created_at', 'created_at', { unique: false });
-    
+
     /* store_six.createIndex('Id_Lectura', 'Id_Lectura', { unique: true });
     store_six.createIndex('Abonado', 'Abonado', { unique: false });
     store_six.createIndex('Lectura_Anterior', 'Lectura_Anterior', { unique: false });

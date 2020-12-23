@@ -53,9 +53,9 @@ function renderizar_lecturas_desde_indexedDB() {
       data_lecturas = data_lecturas.reverse();
       const lecturas_html = data_lecturas.map((l) => {
         return `
-          <li onclick="registrar_lectura_mes('${l.mes}')" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+          <li onclick="registrar_lectura_mes('${l.mes}', '${l.cantidad_registros}', '${l.fecha_registros}')" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
             <span><i class="fa fa-calendar-check-o"></i>&nbsp; ${l.mes_literal}</span>
-            <span class="badge badge-primary badge-pill">14</span>
+            <span class="badge badge-primary badge-pill">${l.cantidad_registros}</span>
           </li>`;
       }).join('');
       $('#lista_lecturas').empty().append(lecturas_html);
@@ -66,7 +66,7 @@ function renderizar_lecturas_desde_indexedDB() {
   };
 }
 // Registrar Lectura (mes)
-function registrar_mes_indexedDB(mes, mes_literal) {
+function registrar_mes_indexedDB(mes, mes_literal, cantidad_registros, fecha_registros) {
   const transaction = db.transaction([DB_STORE_NAME_ONE], 'readonly')
   const objectStore = transaction.objectStore(DB_STORE_NAME_ONE)
   const request     = objectStore.openCursor()
@@ -80,7 +80,7 @@ function registrar_mes_indexedDB(mes, mes_literal) {
         const username      = data_sesion.username;
         const hoy           = new Date();
         const created_at    = hoy.getFullYear()+'-'+(hoy.getMonth()+1)+'-'+hoy.getDate()+' '+hoy.getHours()+':'+hoy.getMinutes()+':'+hoy.getSeconds();
-        const data_lectura  = { mes, mes_literal, username, created_at };
+        const data_lectura  = { mes, mes_literal, username, cantidad_registros, fecha_registros, created_at };
         const transaction = db.transaction([DB_STORE_NAME_SIX], 'readwrite')
         const objectStore = transaction.objectStore(DB_STORE_NAME_SIX)
         const request = objectStore.add(data_lectura)

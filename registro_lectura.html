@@ -74,90 +74,90 @@
     </div>
   </div>
 
-<!-- Modal Nuevo Registro-->
-<div class="modal fade" id="modal_nuevo_registro" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Nuevo registro</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action="#" id="form_nuevo_registro">
-          <div class="row">
-            <div class="col-md-12">
-              <label for="registro_anio_mes">Mes</label>
-              <input type="month" id="registro_anio_mes" class="form-control" required>
+  <!-- Modal Nuevo Registro-->
+  <div class="modal fade" id="modal_nuevo_registro" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Nuevo registro</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="#" id="form_nuevo_registro">
+            <div class="row">
+              <div class="col-md-12">
+                <label for="registro_anio_mes">Mes</label>
+                <input type="month" id="registro_anio_mes" class="form-control" required>
+              </div>
             </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-md-12 text-center">
-              <button type="submit" class="btn btn-primary btn-sm">Registrar</button>
-              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+            <div class="row mt-3">
+              <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-primary btn-sm">Registrar</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+              </div>
             </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Actualizar Datos Empleados, Filtro por Circuitos, Zonas y Calles-->
-<div class="modal fade" id="modal_paso_registrar_lecturas" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Registrar Lecturas</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action="#" id="form_paso_registrar_lecturas">
-          <div class="row">
-            <div class="col-md-12 text-center">
-              <button class="btn btn-success btn-sm"><i class="fa fa-cloud-download" aria-hidden="true"></i> Obtener Datos <span id="nombre_mes"></span></button><br />
-              <small class="color_uno">200 registros descargados</small>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <label for="registrar_lectura_circuito" class="m-0">Circuito</label>
-              <select class="form-control" id="registrar_lectura_circuito" required>
-                <!-- dinamico -->
-              </select>
-            </div>
-          </div>
-          <div class="row mt-1">
-            <div class="col-md-12">
-              <label for="registrar_lectura_zona" class="m-0">Zona</label>
-              <select class="form-control" id="registrar_lectura_zona" required>
-                <!-- dinamico -->
-              </select>
-            </div>
-          </div>
-          <div class="row mt-1">
-            <div class="col-md-12">
-              <label for="registrar_lectura_calle" class="m-0">Calle</label>
-              <select class="form-control" id="registrar_lectura_calle" required>
-                <!-- dinamico -->
-              </select>
-            </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-md-12 text-center">
-              <button type="submit" class="btn btn-primary btn-sm">Continuar</button>
-              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
+  <!-- Modal Actualizar Datos Empleados, Filtro por Circuitos, Zonas y Calles-->
+  <div class="modal fade" id="modal_paso_registrar_lecturas" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Registrar Lecturas</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="#" id="form_paso_registrar_lecturas">
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <button type="button" class="btn btn-success btn-sm"><i class="fa fa-cloud-download" aria-hidden="true"></i> Obtener Datos <span id="nombre_mes"></span></button><br />
+                <small class="color_uno d-block"><span id="cantidad_registros"></span></small>
+                <small class="color_uno d-block"><span id="fecha_registros"></span></small>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <label for="registrar_lectura_circuito" class="m-0">Circuito</label>
+                <select class="form-control" id="registrar_lectura_circuito" required>
+                  <!-- dinamico -->
+                </select>
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-12">
+                <label for="registrar_lectura_zona" class="m-0">Zona</label>
+                <select class="form-control" id="registrar_lectura_zona" required>
+                  <!-- dinamico -->
+                </select>
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-12">
+                <label for="registrar_lectura_calle" class="m-0">Calle</label>
+                <select class="form-control" id="registrar_lectura_calle" required>
+                  <!-- dinamico -->
+                </select>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-primary btn-sm">Continuar</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- JQuery 3.5.1 - js -->
   <script src="./assets/plugins/jquery/3.5.1/jquery.min.js"></script>
@@ -181,18 +181,21 @@
     });
     $('#form_nuevo_registro').submit(function (e) {
       e.preventDefault();
-      const anio_mes    = $('#registro_anio_mes').val();
-      const fecha       = anio_mes.split('-');
-      const mes_literal = nombre_mes[parseInt(fecha[1]-1)]+' '+fecha[0];
-      registrar_mes_indexedDB(anio_mes, mes_literal);
-      console.log('registrando', mes_literal)
+      const anio_mes            = $('#registro_anio_mes').val();
+      const fecha               = anio_mes.split('-');
+      const mes_literal         = nombre_mes[parseInt(fecha[1]-1)]+' '+fecha[0];
+      const cantidad_registros  = 0;
+      const fecha_registros     = '-';
+      registrar_mes_indexedDB(anio_mes, mes_literal, cantidad_registros, fecha_registros);
     });
-    function registrar_lectura_mes(anio_mes) {
-      console.log(anio_mes)
+    function registrar_lectura_mes(anio_mes, cantidad_registros, fecha_registros) {
+      console.log(anio_mes, cantidad_registros, fecha_registros)
       const fecha       = anio_mes.split('-');
       const mes_literal = nombre_mes[parseInt(fecha[1]-1)]+' '+fecha[0];
-      console.log('registrando del mes', mes_literal)
+      console.log('registrando del mes de', mes_literal)
       $('#nombre_mes').text(mes_literal);
+      $('#cantidad_registros').text(cantidad_registros+' registro descargados');
+      $('#fecha_registros').text((fecha_registros == '-') ? '-':fecha_registros.split(' ')[0].split('-').reverse().join('/')+' '+fecha_registros.split(' ')[1]);
       const opciones_circuitos = data_direcciones.circuitos.data.map((c) => `<option value="${c.Id_Circuito}">${c.Circuito}</option>`).join('');
       $('#registrar_lectura_circuito').empty().append(opciones_circuitos).change();
       $('#modal_paso_registrar_lecturas').modal('show');
