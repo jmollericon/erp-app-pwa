@@ -37,7 +37,7 @@
               <a class="nav-link" href="#"><i class="fa fa-phone"></i>&nbsp; Contactos</a>
             </li>
             <li class="nav-item active opcion_user_adm">
-              <a class="nav-link" href="./registro_lectura.html"><i class="fa fa-pencil"></i>&nbsp; Registro de lecturas</a>
+              <a class="nav-link" href="./lectura.html"><i class="fa fa-pencil"></i>&nbsp; Registro de lecturas</a>
             </li>
             <li class="nav-item opcion_user_adm">
               <a class="nav-link" href="./configuracion.html"><i class="fa fa-cog"></i>&nbsp; Configuración</a>
@@ -169,7 +169,7 @@
 
   <!-- Erp App PWA 1.0.0 - js -->
   <script src="app.js"></script> <!-- Execute ServiceWorker -->
-  <script src="./js/indexedDB_registro_lectura.js"></script>
+  <script src="./js/indexedDB_lectura.js"></script>
   <script src="./js/indexedDB_general.js"></script>
 
   <script>
@@ -194,7 +194,7 @@
       const mes_literal = nombre_mes[parseInt(fecha[1]-1)]+' '+fecha[0];
       console.log('registrando del mes de', mes_literal)
       $('#nombre_mes').text(mes_literal);
-      $('#cantidad_registros').text(cantidad_registros+' registro descargados');
+      $('#cantidad_registros').text(cantidad_registros+' registros descargados');
       $('#fecha_registros').text((fecha_registros == '-') ? '-':fecha_registros.split(' ')[0].split('-').reverse().join('/')+' '+fecha_registros.split(' ')[1]);
       const opciones_circuitos = data_direcciones.circuitos.data.map((c) => `<option value="${c.Id_Circuito}">${c.Circuito}</option>`).join('');
       $('#registrar_lectura_circuito').empty().append(opciones_circuitos).change();

@@ -166,7 +166,7 @@ function get_calles_desde_indexedDB() {
   return response;
 }
 function obtener_direcciones_desde_indexedDB() {
-  /* data_direcciones se usa desde registro_lectura.html */
+  /* data_direcciones se usa desde lectura.html */
   data_direcciones.circuitos = get_circuitos_desde_indexedDB();  /* Leer Circuitos */
   data_direcciones.zonas     = get_zonas_desde_indexedDB();      /* Leer Zonas */
   data_direcciones.calles    = get_calles_desde_indexedDB();     /* Leer Calles */
