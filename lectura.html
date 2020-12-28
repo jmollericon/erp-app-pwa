@@ -160,6 +160,33 @@
     </div>
   </div>
 
+  <!-- Modal Ver Datos Lectura Mes (CERRADO) -->
+  <div class="modal fade" id="modal_lectura_mes_cerrado" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Lectura <span id="cerrado_mes_literal"></span></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <strong>Cantidad de registros: </strong><span id="cerrado_cantidad_registros"></span><br />
+              <strong>Fecha última actualización: </strong><span id="cerrado_fecha_registros"></span><br />
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12 text-center">
+              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- JQuery 3.5.1 - js -->
   <script src="./assets/plugins/jquery/3.5.1/jquery.min.js"></script>
   <!-- Bootstrap 4.0.0 - js -->
@@ -249,7 +276,10 @@
     });
     function ver_lectura_mes_cerrado(lectura_mes_base_64) {
       const lectura_mes = JSON.parse(atob(lectura_mes_base_64));
-      console.log(lectura_mes)
+      $('#cerrado_mes_literal').text(lectura_mes.mes_literal);
+      $('#cerrado_cantidad_registros').text(lectura_mes.cantidad_registros);
+      $('#cerrado_fecha_registros').text(lectura_mes.fecha_registros);
+      $('#modal_lectura_mes_cerrado').modal('show');
     }
 
   </script>
