@@ -7,6 +7,7 @@ const DB_STORE_NAME_THREE = 'data_circuito';
 const DB_STORE_NAME_FOUR  = 'data_zona';
 const DB_STORE_NAME_FIVE  = 'data_calle';
 const DB_STORE_NAME_SIX   = 'data_lectura';
+const DB_STORE_NAME_SEVEN = 'data_lectura_registro';
 var db;
 
 if ('serviceWorker' in navigator) {

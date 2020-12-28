@@ -8,6 +8,7 @@ function openDB() {
     verificar_inicio_sesion_lectura();
     renderizar_lecturas_desde_indexedDB();
     obtener_direcciones_desde_indexedDB() /* Circuitos, Zonas y Calles */
+    prueba();
   };
   request.onerror = function (evt) {
     console.error("openDB:", evt.target.errorCode);
@@ -37,6 +38,33 @@ function verificar_inicio_sesion_lectura() {
 }
 openDB();
 
+function prueba() {
+  console.log('prueba')
+  let data_lecturas  = [];
+  const transaction   = db.transaction([DB_STORE_NAME_SIX], 'readonly');
+  const objectStore   = transaction.objectStore(DB_STORE_NAME_SIX);
+  //const request       = objectStore.get('2020-01');
+
+  var myIndex = objectStore.index('estado');
+  var request = myIndex.get(1);
+  //const request       = objectStore.get('estado');
+  request.onsuccess = function (e) {
+    console.log(request.result)
+    if(request.result)
+      console.log(request.result.mes)
+    /*const cursor    = e.target.result;
+    if(cursor) {
+      data_lecturas.push(cursor.value)
+      cursor.continue();
+    } else {
+      console.log(data_lecturas)
+    }*/
+  };
+  request.onerror = function() {
+    time_alert('error', '', 'Error en la lectura de datos.', 2000)
+  };
+}
+
 // Leer Lectura desde IndexedDB
 function renderizar_lecturas_desde_indexedDB() {
   let data_lecturas  = [];
@@ -52,9 +80,14 @@ function renderizar_lecturas_desde_indexedDB() {
       data_lecturas = data_lecturas.reverse();
       const lecturas_html = data_lecturas.map((l) => {
         return `
-          <li onclick="registrar_lectura_mes('${l.mes}', '${l.cantidad_registros}', '${l.fecha_registros}')" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+          <li
+            ${(l.estado == 0) ? `onclick="ver_lectura_mes_cerrado('${btoa(JSON.stringify(l))}')"`:`onclick="registrar_lectura_mes('${btoa(JSON.stringify(l))}')"`}
+            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
             <span><i class="fa fa-calendar-check-o"></i>&nbsp; ${l.mes_literal}</span>
-            <span class="badge badge-primary badge-pill">${l.cantidad_registros}</span>
+            <div>
+              ${(l.estado == 0) ? '<label class="badge badge-danger">CERRADO</label>':'<label class="badge badge-success">ACTIVO</label>'}
+              <span class="badge badge-primary badge-pill">${l.cantidad_registros}</span>
+            </div>
           </li>`;
       }).join('');
       $('#lista_lecturas').empty().append(lecturas_html);
@@ -65,7 +98,7 @@ function renderizar_lecturas_desde_indexedDB() {
   };
 }
 // Registrar Lectura (mes)
-function registrar_mes_indexedDB(mes, mes_literal, cantidad_registros, fecha_registros) {
+function registrar_mes_indexedDB(mes, mes_literal, cantidad_registros, fecha_registros, estado) {
   const transaction = db.transaction([DB_STORE_NAME_ONE], 'readonly')
   const objectStore = transaction.objectStore(DB_STORE_NAME_ONE)
   const request     = objectStore.openCursor()
@@ -79,20 +112,47 @@ function registrar_mes_indexedDB(mes, mes_literal, cantidad_registros, fecha_reg
         const username      = data_sesion.username;
         const hoy           = new Date();
         const created_at    = hoy.getFullYear()+'-'+(hoy.getMonth()+1)+'-'+hoy.getDate()+' '+hoy.getHours()+':'+hoy.getMinutes()+':'+hoy.getSeconds();
-        const data_lectura  = { mes, mes_literal, username, cantidad_registros, fecha_registros, created_at };
-        const transaction = db.transaction([DB_STORE_NAME_SIX], 'readwrite')
-        const objectStore = transaction.objectStore(DB_STORE_NAME_SIX)
-        const request = objectStore.add(data_lectura)
-        request.onsuccess = function (evt) {
-          renderizar_lecturas_desde_indexedDB();
-          time_alert('success', '', 'Registrado!.', 2000)
-          .then(() => {
-            $('#modal_nuevo_registro').modal('hide');
-          });
-        };
-        request.onerror = function() {
-          console.log("data lectura error", this.error);
-          time_alert('error', '', 'Mes ya registrado.', 2000)
+        const data_lectura  = { mes, mes_literal, username, cantidad_registros, fecha_registros, estado, created_at };
+        const transaction   = db.transaction([DB_STORE_NAME_SIX], 'readwrite')
+        const objectStore   = transaction.objectStore(DB_STORE_NAME_SIX)
+
+        const myIndex       = objectStore.index('estado');
+        const request       = myIndex.get(1); // estado: 1
+        request.onsuccess = function (e) {
+          let mes_key = '';
+          if(request.result)
+            mes_key = request.result.mes;
+
+          const request2 = objectStore.add(data_lectura);
+          request2.onsuccess = function (evt) {
+            if(mes_key != '') {
+              console.log('poner estado = 0', mes_key);
+              const request3 = objectStore.get(mes_key);
+              request3.onsuccess = function (evt) {
+                const data_mes = request3.result;
+                data_mes.estado = 0;
+                const request4 = objectStore.put(data_mes);
+                request4.onsuccess = function (evt) {
+                  console.log('actualizado')
+                }
+                request4.onerror = function() {
+                  console.log("error al cambiar de estado x2", this.error);
+                };
+              }
+              request3.onerror = function() {
+                console.log("error al cambiar de estado", this.error);
+              };
+            }
+            renderizar_lecturas_desde_indexedDB();
+            time_alert('success', '', 'Registrado!.', 2000)
+            .then(() => {
+              $('#modal_nuevo_registro').modal('hide');
+            });
+          };
+          request2.onerror = function() {
+            console.log("data lectura error", this.error);
+            time_alert('error', '', 'Mes ya registrado.', 2000)
+          };
         };
       /*}*/
     } else {
@@ -169,4 +229,31 @@ function obtener_direcciones_desde_indexedDB() {
   data_direcciones.circuitos = get_circuitos_desde_indexedDB();  /* Leer Circuitos */
   data_direcciones.zonas     = get_zonas_desde_indexedDB();      /* Leer Zonas */
   data_direcciones.calles    = get_calles_desde_indexedDB();     /* Leer Calles */
+}
+// Registrar lectura_registros (datos de lectura de un mes x)
+function actualizar_lectura_registro_indexedDB(data_lectura_registro) {
+  const response    = {};
+  const transaction = db.transaction([DB_STORE_NAME_SEVEN], 'readwrite')
+  const objectStore = transaction.objectStore(DB_STORE_NAME_SEVEN)
+  const request     = objectStore.clear();
+  request.onsuccess = function (evt) {
+    response.clear = 'success';
+
+    $('#cantidad_registros').text(data_lectura_registro.length);
+
+    data_lectura_registro.forEach(lr => {
+      const data_circuito = { id: lr.id, data1: lr.data1, data2: lr.data2, data3: lr.data3, lectura: lr.lectura };
+      const request = objectStore.add(data_circuito)
+      request.onsuccess = function (evt) {
+        response.add = 'success';
+      };
+      request.onerror = function() {
+        response.add = 'error';
+      };
+    });
+  };
+  request.onerror = function() {
+    response.clear = 'error';
+  };
+  return response;
 }

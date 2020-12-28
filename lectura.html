@@ -119,8 +119,8 @@
             <input type="text" id="registrar_lectura_anio_mes" hidden>
             <div class="row">
               <div class="col-md-12 text-center">
-                <button type="button" class="btn btn-success btn-sm"><i class="fa fa-cloud-download" aria-hidden="true"></i> Obtener Datos <span id="nombre_mes"></span></button><br />
-                <small class="color_uno d-block"><span id="cantidad_registros"></span></small>
+                <button type="button" id="obtener_datos_lectura" class="btn btn-success btn-sm"><i class="fa fa-cloud-download" aria-hidden="true"></i> Obtener Datos <span id="nombre_mes"></span></button><br />
+                <small class="color_uno d-block"><span id="cantidad_registros"></span> registros descargados</small>
                 <small class="color_uno d-block"><span id="fecha_registros"></span></small>
               </div>
             </div>
@@ -180,6 +180,7 @@
       e.preventDefault();
       eliminar_data_sesion();
     });
+    // Registro de nuevo mes
     $('#form_nuevo_registro').submit(function (e) {
       e.preventDefault();
       const anio_mes            = $('#registro_anio_mes').val();
@@ -187,24 +188,29 @@
       const mes_literal         = nombre_mes[parseInt(fecha[1]-1)]+' '+fecha[0];
       const cantidad_registros  = 0;
       const fecha_registros     = '-';
-      registrar_mes_indexedDB(anio_mes, mes_literal, cantidad_registros, fecha_registros);
+      const estado              = 1;
+      msg_confirmation('warning', '', 'Ya no podrá registrar mas datos de los otros meses.<br><b>¿Está seguro?</b>')
+      .then(res => {
+        if(res) {
+          registrar_mes_indexedDB(anio_mes, mes_literal, cantidad_registros, fecha_registros, estado);
+        }
+      })
     });
-    function registrar_lectura_mes(anio_mes, cantidad_registros, fecha_registros) {
-      console.log(anio_mes, cantidad_registros, fecha_registros)
-      const fecha       = anio_mes.split('-');
-      const mes_literal = nombre_mes[parseInt(fecha[1]-1)]+' '+fecha[0];
-      console.log('registrando del mes de', mes_literal)
-      $('#nombre_mes').text(mes_literal);
-      $('#cantidad_registros').text(cantidad_registros+' registros descargados');
-      $('#fecha_registros').text((fecha_registros == '-') ? '-':fecha_registros.split(' ')[0].split('-').reverse().join('/')+' '+fecha_registros.split(' ')[1]);
-      $('#registrar_lectura_anio_mes').val(anio_mes);
+    // Registro de Lecturas Datos
+    function registrar_lectura_mes(lectura_mes_base_64) {
+      const lectura_mes = JSON.parse(atob(lectura_mes_base_64));
+      $('#nombre_mes').text(lectura_mes.mes_literal);
+      $('#cantidad_registros').text(lectura_mes.cantidad_registros);
+      $('#fecha_registros').text((lectura_mes.fecha_registros == '-') ? '-':lectura_mes.fecha_registros.split(' ')[0].split('-').reverse().join('/')+' '+lectura_mes.fecha_registros.split(' ')[1]);
+      $('#registrar_lectura_anio_mes').val(lectura_mes.mes);
+      // Select Circuitos
       const opciones_circuitos = data_direcciones.circuitos.data.map((c) => `<option value="${c.Id_Circuito}">${c.Circuito}</option>`).join('');
       $('#registrar_lectura_circuito').empty().append(opciones_circuitos).change();
       $('#modal_paso_registrar_lecturas').modal('show');
     }
     $('#registrar_lectura_circuito').on('change', function() {
       const Id_Circuito     = $('#registrar_lectura_circuito').val();
-      const zonas_filtrado  = data_direcciones.zonas.data.filter((c) => (true));
+      const zonas_filtrado  = data_direcciones.zonas.data.filter((c) => (true)); // Necesito Filtrar por IdCircuito en ListaZona (Falta en ListaZona -> IdCircuito)
       const opciones_zonas  = zonas_filtrado.map((z) => `<option value="${z.Id_Zona}">${z.Zona}</option>`).join('');
       $('#registrar_lectura_zona').empty().append(opciones_zonas).change();
     });
@@ -223,6 +229,29 @@
       const anio_mes    = $('#registrar_lectura_anio_mes').val();
       window.location   = `./lectura_registro.html?${Id_Circuito}+${Id_Zona}+${Id_Calle}+${anio_mes}`;
     });
+    // Obtener datos de todos los empleados del año-mes seleccionado
+    $('#obtener_datos_lectura').on('click', function () {
+      msg_confirmation('warning', '', 'Los datos actuales serán reemplazados por la nuevos datos.<br><b>¿Está seguro?</b>')
+      .then(res => {
+        if(res) {
+          const ano_mes = $('#registrar_lectura_anio_mes').val();
+          // Verificar conexión a internet para realizar la descarga
+          const ejemplo_datos = [
+            {id:1, data1: 'juan', data2: 'd2a', data3: ano_mes, lectura: ''},
+            {id:2, data1: 'mario', data2: 'd1b', data3: ano_mes, lectura: ''},
+            {id:3, data1: 'pedro', data2: 'dpe', data3: ano_mes, lectura: ''}
+          ];
+          console.log('descargar lista de usuarios', ano_mes, ejemplo_datos);
+          const res = actualizar_lectura_registro_indexedDB(ejemplo_datos); /* Elimina y Registra */
+          console.log(res)
+        }
+      });
+    });
+    function ver_lectura_mes_cerrado(lectura_mes_base_64) {
+      const lectura_mes = JSON.parse(atob(lectura_mes_base_64));
+      console.log(lectura_mes)
+    }
+
   </script>
 </body>
 </html>

@@ -49,12 +49,16 @@ function openDB() {
     store_six.createIndex('username', 'username', { unique: false });
     store_six.createIndex('cantidad_registros', 'cantidad_registros', { unique: false });
     store_six.createIndex('fecha_registros', 'fecha_registros', { unique: false });
+    store_six.createIndex('estado', 'estado', { unique: false });
     store_six.createIndex('created_at', 'created_at', { unique: false });
 
-    /* store_six.createIndex('Id_Lectura', 'Id_Lectura', { unique: true });
-    store_six.createIndex('Abonado', 'Abonado', { unique: false });
-    store_six.createIndex('Lectura_Anterior', 'Lectura_Anterior', { unique: false });
-    store_six.createIndex('Lectura_Actual', 'Lectura_Actual', { unique: false }); */
+    // STORE SEVEN - data_lectura_registro
+    var store_seven = evt.currentTarget.result.createObjectStore(DB_STORE_NAME_SEVEN, { keyPath: 'id' });
+    store_seven.createIndex('id', 'id', { unique: true });
+    store_seven.createIndex('data1', 'data1', { unique: false });
+    store_seven.createIndex('data2', 'data2', { unique: false });
+    store_seven.createIndex('data3', 'data3', { unique: false });
+    store_seven.createIndex('lectura', 'lectura', { unique: false });
   };
 }
 function add_data_sesion(username, name, user_type, page) {
