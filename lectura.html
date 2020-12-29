@@ -274,7 +274,8 @@
             const ejemplo_datos = [
               {id:1, data1: 'juan', data2: 'd2a', data3: anio_mes, lectura: ''},
               {id:2, data1: 'mario', data2: 'd1b', data3: anio_mes, lectura: ''},
-              {id:3, data1: 'pedro', data2: 'dpe', data3: anio_mes, lectura: ''}
+              {id:3, data1: 'pedro', data2: 'dpe', data3: anio_mes, lectura: ''},
+              {id:4, data1: 'carlos', data2: 'dac', data3: anio_mes, lectura: ''},
             ];
             console.log('datos descargados', ejemplo_datos);
             const data_lectura_registro = ejemplo_datos;
@@ -284,7 +285,7 @@
                 // Descargó y registró correctamento los datos
                 const data_lectura = { // Actualizar data_lectura
                   cantidad_registros: data_lectura_registro.length,
-                  fecha_registros: '2020-12-27 14:23:58',
+                  fecha_registros: '2020-12-27 18:02:33',
                 }
                 actualizar_data_lectura_indexedDB(data_lectura, anio_mes)
                 .then(res => {
@@ -293,6 +294,7 @@
                     time_alert('success', '', 'Datos descargados correctamente.', 2000)
                     .then(() => {
                       $('#cantidad_registros').text(data_lectura.cantidad_registros);
+                      $('#fecha_registros').text(data_lectura.fecha_registros);
                       renderizar_lecturas_desde_indexedDB(); // leer cantidad, fecha _registros
                     });
                   } else {
