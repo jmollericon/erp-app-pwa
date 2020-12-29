@@ -119,7 +119,7 @@
             <input type="text" id="registrar_lectura_anio_mes" hidden>
             <div class="row">
               <div class="col-md-12 text-center">
-                <button type="button" id="obtener_datos_lectura" class="btn btn-success btn-sm"><i class="fa fa-cloud-download" aria-hidden="true"></i> Obtener Datos <span id="nombre_mes"></span></button><br />
+                <button type="button" id="obtener_datos_lectura_mes" class="btn btn-success btn-sm"><i class="fa fa-cloud-download" aria-hidden="true"></i> Obtener Datos <span id="nombre_mes"></span></button><br />
                 <small class="color_uno d-block"><span id="cantidad_registros"></span> registros descargados</small>
                 <small class="color_uno d-block"><span id="fecha_registros"></span></small>
               </div>
@@ -257,23 +257,61 @@
       window.location   = `./lectura_registro.html?${Id_Circuito}+${Id_Zona}+${Id_Calle}+${anio_mes}`;
     });
     // Obtener datos de todos los empleados del año-mes seleccionado
-    $('#obtener_datos_lectura').on('click', function () {
-      msg_confirmation('warning', '', 'Los datos actuales serán reemplazados por la nuevos datos.<br><b>¿Está seguro?</b>')
+    $('#obtener_datos_lectura_mes').on('click', function () {
+      msg_confirmation('warning', '', 'Los datos actuales serán reemplazados por los nuevos datos.<br><b>¿Está seguro?</b>')
       .then(res => {
         if(res) {
-          const ano_mes = $('#registrar_lectura_anio_mes').val();
-          // Verificar conexión a internet para realizar la descarga
-          const ejemplo_datos = [
-            {id:1, data1: 'juan', data2: 'd2a', data3: ano_mes, lectura: ''},
-            {id:2, data1: 'mario', data2: 'd1b', data3: ano_mes, lectura: ''},
-            {id:3, data1: 'pedro', data2: 'dpe', data3: ano_mes, lectura: ''}
-          ];
-          console.log('descargar lista de usuarios', ano_mes, ejemplo_datos);
-          const res = actualizar_lectura_registro_indexedDB(ejemplo_datos); /* Elimina y Registra */
-          console.log(res)
+          Swal.fire({
+            html: `Descagando datos<br />de ${$('#nombre_mes').text()}`,
+            allowOutsideClick: false,
+          });
+          Swal.showLoading();
+          const anio_mes = $('#registrar_lectura_anio_mes').val();
+          if(true) {// Verificar conexión a internet para realizar la descarga
+            // Solicitar información al servidor
+            console.log('descargar lista de usuarios', anio_mes);
+            // AJAX
+            const ejemplo_datos = [
+              {id:1, data1: 'juan', data2: 'd2a', data3: anio_mes, lectura: ''},
+              {id:2, data1: 'mario', data2: 'd1b', data3: anio_mes, lectura: ''},
+              {id:3, data1: 'pedro', data2: 'dpe', data3: anio_mes, lectura: ''}
+            ];
+            console.log('datos descargados', ejemplo_datos);
+            const data_lectura_registro = ejemplo_datos;
+            actualizar_lectura_registro_indexedDB(data_lectura_registro) /* Eliminar y Registrar */
+            .then(res => {
+              if(res.clear && res.add && res.contador == data_lectura_registro.length) {
+                // Descargó y registró correctamento los datos
+                const data_lectura = { // Actualizar data_lectura
+                  cantidad_registros: data_lectura_registro.length,
+                  fecha_registros: '2020-12-27 14:23:58',
+                }
+                actualizar_data_lectura_indexedDB(data_lectura, anio_mes)
+                .then(res => {
+                  if(res.get && res.put) {
+                    Swal.close();
+                    time_alert('success', '', 'Datos descargados correctamente.', 2000)
+                    .then(() => {
+                      $('#cantidad_registros').text(data_lectura.cantidad_registros);
+                      renderizar_lecturas_desde_indexedDB(); // leer cantidad, fecha _registros
+                    });
+                  } else {
+                    Swal.close();
+                    time_alert('error', '', 'Ocurrió un problema al obtener los datos, intente de nuevo.', 2000)
+                  }
+                });
+              } else {
+                Swal.close();
+                time_alert('error', '', 'Ocurrió un problema al obtener los datos, intente de nuevo.', 2000)
+              }
+            });
+          } else {
+            time_alert('error', '', 'Revise su conexión a internet', 2000)
+          }
         }
       });
     });
+    // Ver datos de 'Lectura Mes', estado: 0 (cerrado)
     function ver_lectura_mes_cerrado(lectura_mes_base_64) {
       const lectura_mes = JSON.parse(atob(lectura_mes_base_64));
       $('#cerrado_mes_literal').text(lectura_mes.mes_literal);
@@ -281,7 +319,6 @@
       $('#cerrado_fecha_registros').text(lectura_mes.fecha_registros);
       $('#modal_lectura_mes_cerrado').modal('show');
     }
-
   </script>
 </body>
 </html>

@@ -232,28 +232,59 @@ function obtener_direcciones_desde_indexedDB() {
 }
 // Registrar lectura_registros (datos de lectura de un mes x)
 function actualizar_lectura_registro_indexedDB(data_lectura_registro) {
-  const response    = {};
-  const transaction = db.transaction([DB_STORE_NAME_SEVEN], 'readwrite')
-  const objectStore = transaction.objectStore(DB_STORE_NAME_SEVEN)
-  const request     = objectStore.clear();
-  request.onsuccess = function (evt) {
-    response.clear = 'success';
-
-    $('#cantidad_registros').text(data_lectura_registro.length);
-
-    data_lectura_registro.forEach(lr => {
-      const data_circuito = { id: lr.id, data1: lr.data1, data2: lr.data2, data3: lr.data3, lectura: lr.lectura };
-      const request = objectStore.add(data_circuito)
-      request.onsuccess = function (evt) {
-        response.add = 'success';
-      };
+  return new Promise((resolve, reject) => {
+    const response    = {};
+    const transaction = db.transaction([DB_STORE_NAME_SEVEN], 'readwrite')
+    const objectStore = transaction.objectStore(DB_STORE_NAME_SEVEN)
+    const request     = objectStore.clear(); // Elimina todo del otro mes
+    request.onsuccess = function (evt) {
+      response.clear = true;
+      let c = 0;
+      data_lectura_registro.forEach( lr => {
+        const request2 = objectStore.add(lr)
+        request2.onsuccess = function (evt) {
+          c++;
+          response.add = true;
+          response.contador = c;
+        };
+        request2.onerror = function() {
+          response.add = false;
+        };
+      });
+    };
+    request.onerror = function() {
+      response.clear = false;
+    };
+    transaction.oncomplete = function () {
+      resolve(response);
+    }
+  });
+}
+// Actualizar registro data_lectura (cantidad_registros & fecha_registros)
+function actualizar_data_lectura_indexedDB(data_lectura, mes_key) {
+  return new Promise((resolve, reject) => {
+    const response    = {};
+    const transaction = db.transaction([DB_STORE_NAME_SIX], 'readwrite');
+    const objectStore = transaction.objectStore(DB_STORE_NAME_SIX);
+    const request = objectStore.get(mes_key);
+    request.onsuccess = function (evt) {
+      response.get = true;
+      const data_lectura_actualizado = request.result;
+      data_lectura_actualizado.cantidad_registros = data_lectura.cantidad_registros;
+      data_lectura_actualizado.fecha_registros    = data_lectura.fecha_registros;
+      const request2 = objectStore.put(data_lectura_actualizado);
+      request2.onsuccess = function (evt) {
+        response.put = true;
+      }
       request.onerror = function() {
-        response.add = 'error';
+        response.put = false;
       };
-    });
-  };
-  request.onerror = function() {
-    response.clear = 'error';
-  };
-  return response;
+    };
+    request.onerror = function() {
+      response.get = false;
+    };
+    transaction.oncomplete = function () {
+      resolve(response);
+    }
+  });
 }
